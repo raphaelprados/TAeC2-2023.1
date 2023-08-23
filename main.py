@@ -7,9 +7,7 @@ from pyexcel_ods import save_data
 from collections import OrderedDict
 
 df = pd.read_csv('organizacoes.csv', delimiter=",", encoding="UTF-8")
-
 df2 = pd.read_csv('organizacoes2.csv', delimiter=",", encoding="UTF-8")
-
 df3 = pd.read_csv('organizacoes2.csv', delimiter=",", encoding="UTF-8")
 
 # Remove todas as colunas to tipo "Unnamed"
@@ -51,7 +49,18 @@ plt.show()
 
 """ Crie casos de teste (asserts - unittest.TestCase) para verificar se os plots contém mais do que
         30 valores e se os dados não são valores nulos;"""
+import unittest
 
+
+class DF:
+    def __init__(self, var):
+        self.var = var
+    @staticmethod
+    def validate(arg):
+        return len(df.index) > 30
+class DFTest(unittest.TestCase):
+    def test_validate_size(self):
+        self.assertTrue(DF.validate(df))
 
 """ Crie um DataFrame “df” ordenado de forma crescente pela coluna “Founded” para valores
         maiores que 2000 incluindo as colunas “Name”, “Country”, “Founded” e “Number of
