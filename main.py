@@ -57,7 +57,7 @@ class DF:
         self.var = var
     @staticmethod
     def validate(arg):
-        return len(df.index) > 30
+        return len(df.index) > 30 and df.notnull()
 class DFTest(unittest.TestCase):
     def test_validate_size(self):
         self.assertTrue(DF.validate(df))
