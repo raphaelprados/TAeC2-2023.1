@@ -1,8 +1,6 @@
-from os import write
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 from pyexcel_ods import save_data
 from collections import OrderedDict
 
@@ -14,7 +12,6 @@ df3 = pd.read_csv('organizacoes2.csv', delimiter=",", encoding="UTF-8")
 frames = [df, df2, df3]
 df = pd.concat(frames)
 df = df.loc[:, ~df.columns.str.contains('Unnamed')]
-print(df)
 
 """ Exporte o DataFrame “df” para um arquivo binário chamado “dados.od” """
 df.astype(str)
@@ -31,7 +28,8 @@ save_data('dados.ods', d)
 df_a = df[['Index', 'Founded', 'Number of employees']]
 df_a = df_a[df_a['Founded'] >= 2000]
 fig = plt.figure(figsize=(10, 10))
-plt.boxplot(df_a)
+plt.boxplot(df_a['Number of employees'])
+plt.ylabel('Número de Funcionários')
 plt.show()
 
 """ Faça um plot de barras dos tipos de indústrias fundadas após o ano 2000; """
@@ -50,7 +48,6 @@ plt.show()
 """ Crie casos de teste (asserts - unittest.TestCase) para verificar se os plots contém mais do que
         30 valores e se os dados não são valores nulos;"""
 import unittest
-
 
 class DF:
     def __init__(self, var):
@@ -95,7 +92,8 @@ from sklearn.linear_model import LinearRegression
 df['Decade'] = (df['Founded'] // 10) * 10
 
 # Agrupe por década e calcule o valor total de funcionários em cada década
-funcionarios_por_decada = df.groupby('Decade')['Number of employees'].sum().reset_index()
+funcionarios_por_decada = df.groupby('Decade')['Number of employees']\
+    .sum().reset_index()
 
 # Crie um array numpy para os anos das décadas
 anos_decadas = funcionarios_por_decada['Decade'].values.reshape(-1, 1)
